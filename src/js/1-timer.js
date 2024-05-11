@@ -9,3 +9,16 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
 
+const timePicker = document.querySelector('input[type="text]'),
+        startBtn = document.querySelector('button[data-start]');
+        daysData =  document.querySelector('.value[data-days]'),
+        hoursData = document.querySelector('.value[data-hours]'),
+        minutesData = document.querySelector('.value[data-minutes]'),
+        secondsData = document.querySelector('.value[data-seconds]');
+
+        
+
+
+
+
+
