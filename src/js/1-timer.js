@@ -1,11 +1,7 @@
-// Описаний в документації
-import flatpickr from "flatpickr";
-// Додатковий імпорт стилів
-import "flatpickr/dist/flatpickr.min.css";
 
-// Описаний у документації
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.min.css";
 import iziToast from "izitoast";
-// Додатковий імпорт стилів
 import "izitoast/dist/css/iziToast.min.css";
 
 const timePicker = document.querySelector('#datatime-picker');
@@ -40,7 +36,6 @@ const options = {
           }
         },
       };
-      
       flatpickr('#datatime-picker', options);
 
         
