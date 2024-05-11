@@ -11,7 +11,7 @@ const hoursCounter = document.querySelector('.value[data-hours]');
 const minutesCounter = document.querySelector('.value[data-minutes]');
 const secondsCounter = document.querySelector('.value[data-seconds]');
 
-let selectedTime;
+let timerId = null;
 
 const options = {
         enableTime: true,
@@ -20,14 +20,12 @@ const options = {
         minuteIncrement: 1,
         onClose(selectedDates) {
           console.log(selectedDates[0]);
-          
-          const dateNow = selectedDates[0].defaultDate.getTime();
-          const futureDate = selectedDates[0].getTime();
 
-          if(futureDate < dateNow) {
+          if(selectedDates[0].getTime() < Date.now()) {
                 iziToast.warning({
                         title: 'Error',
                         message: 'Please choose a date in the future',
+                        position: 'topRight'
                 });
                 startBtn.disabled = true;
           }     else {
@@ -68,36 +66,28 @@ function convertMs(ms) {
 
       
 
-function startTimer(difference) {
-        timePicker.disabled = true;
-        startBtn.disabled = true;
-        const interval = setInterval(() => {
-                const { days, hours, minutes, seconds } = convertMs(difference);
-                daysCounter.textContent = addLeadingZero(days);
-                hoursCounter.textContent = addLeadingZero(hours);
-                minutesCounter.textContent = addLeadingZero(minutes);
-                secondsCounter.textContent = addLeadingZero(seconds);
+startBtn.addEventListener('click', onBtnClick);
 
-                difference -= 1000;
-                if(difference <= 0) {
-                        clearInterval(interval);
-                        timePicker.disabled = false;
+function onBtnClick() {
+        timerId = setInterval(() => {
+                const difference = new Date(timePicker.value) - Date.now();
+                if(difference < 1000) {
+                        clearInterval(timerId);
                         startBtn.disabled = false;
                 }
-        }, 1000)
+
+                const data = convertMs(difference);
+                changeValues(data);
+        }, 1000);
 }
 
 
-startBtn.addEventListener('click', () => {
-        const currentdate = new Date();
-
-        const difference = selectedTime - currentdate;
-        startTimer(difference);
-});
-
-
-
-        
+function changeValues({ days, hours, minutes, seconds}) {
+        daysCounter.textContent = days;
+        hoursCounter.textContent = hours;
+        minutesCounter.textContent = minutes;
+        secondsCounter.textContent = seconds;
+};
 
 
 
