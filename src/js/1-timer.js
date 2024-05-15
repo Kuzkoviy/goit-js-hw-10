@@ -36,11 +36,9 @@ const options = {
                         messageSize: '14'});
                 refs.start.setAttribute('disabled', 1);
                 return;
-          } else {
-                refs.start.setAttribute('disabled', 1);
-                refs.calendar.setAttribute('disabled', 1);
           }
-                refs.start.removeAttribute('disabled');
+                refs.start.disabled = false;
+                refs.calendar.setAttribute('disabled', 1);
         },
       };
 
@@ -73,17 +71,27 @@ function convertMs(ms) {
       }
 
 
+
+function enableStartAndCalendar() {
+        refs.start.disabled = false;
+        refs.calendar.disabled = false;
+}
+
 function onButtonClick() {
         timer = setInterval(() => {
                 const difference = new Date(refs.calendar.value) - Date.now();
                 if(difference < 1000) {
                         clearInterval(timer);
-                        refs.start.setAttribute('disabled', 1);
+                       enableStartAndCalendar();
+                       
                 } 
-
+                refs.start.setAttribute('disabled', 1);
                 const data = convertMs(difference);
                 updateTimer(data);
         }, 1000);
+
+        refs.start.disabled = false;
+        refs.calendar.disabled = true;
 };
 
 function updateTimer({ days, hours, minutes, seconds }) {
