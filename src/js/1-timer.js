@@ -25,7 +25,7 @@ const options = {
         minuteIncrement: 1,
         onClose(selectedDates) {
           console.log(selectedDates[0]);
-          if(selectedDates[0].getTime() < Date.now()) {
+          if(selectedDates[0].getTime() < Date.now() || selectedDates[0].getTime() === Date.now()) {
                 iziToast.warning({
                         message: 'Please choose date in the future',
                         position: "topRight",
@@ -36,7 +36,10 @@ const options = {
                         messageSize: '14'});
                 refs.start.setAttribute('disabled', 1);
                 return;
-          } 
+          } else {
+                refs.start.setAttribute('disabled', 1);
+                refs.calendar.setAttribute('disabled', 1);
+          }
                 refs.start.removeAttribute('disabled');
         },
       };
@@ -73,7 +76,7 @@ function convertMs(ms) {
 function onButtonClick() {
         timer = setInterval(() => {
                 const difference = new Date(refs.calendar.value) - Date.now();
-                if(difference < 0) {
+                if(difference < 1000) {
                         clearInterval(timer);
                         refs.start.setAttribute('disabled', 1);
                 } 
